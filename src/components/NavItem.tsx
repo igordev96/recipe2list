@@ -1,11 +1,10 @@
 'use client';
-
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ForkKnife, ShoppingCartSimple, User } from '@phosphor-icons/react';
-import { ComponentProps } from 'react';
 
 type NavItemProps = {
-  title: '/' | 'meals' | 'profile';
+  title: 'lists' | 'meals' | 'profile';
 };
 
 export function NavItem(props: NavItemProps) {
@@ -13,21 +12,25 @@ export function NavItem(props: NavItemProps) {
   const pathName = usePathname();
 
   const isActiveClass =
-    pathName === title ? 'border-t-2 border-solid border-gray-200' : '';
+    pathName === `/${title}` ? 'border-t-2 border-solid border-gray-200' : '';
 
   const NavIcon =
-    title === '/' ? ForkKnife : title === 'meals' ? ShoppingCartSimple : User;
+    title === 'meals'
+      ? ForkKnife
+      : title === 'lists'
+      ? ShoppingCartSimple
+      : User;
 
   const handleOnClick = () => {
-    console.log(title);
+    console.log(title, pathName);
   };
 
   return (
-    <div
+    <Link
       className={`flex h-full grow cursor-pointer items-center justify-center text-white transition-colors hover:text-gray-400 ${isActiveClass}`}
-      onClick={handleOnClick}
+      href={`/${title}`}
     >
       <NavIcon size={48} />
-    </div>
+    </Link>
   );
 }

@@ -1,7 +1,11 @@
 'use client';
 import { NavItem } from './NavItem';
 
-const links: Array<'meals' | '/' | 'profile'> = ['meals', '/', 'profile'];
+const links: Array<'meals' | 'lists' | 'profile'> = [
+  'meals',
+  'lists',
+  'profile',
+];
 
 export function NavBar() {
   return (
