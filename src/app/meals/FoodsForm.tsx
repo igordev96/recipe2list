@@ -1,5 +1,7 @@
 'use client';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import AddDishDialog from './AddDishDialog';
 import CheckboxController from '@/controllers/CheckboxController';
 import Button from '@/components/Button';
 import {
@@ -23,6 +25,8 @@ interface IForm {
 }
 
 export default function FoodsForm() {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
   const { control, handleSubmit, watch } = useForm<IForm>();
 
   const formData = watch();
@@ -44,51 +48,58 @@ export default function FoodsForm() {
   };
 
   const onAdd = () => {
-    console.log('open add dish');
+    setIsDialogOpen(true);
+  };
+
+  const onClose = () => {
+    setIsDialogOpen(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {!fakeData.length ? (
-        <div className='mb-16 text-center'>
-          <p className='text-2xl text-gray-400'>No dishes yet</p>
-          <SmileySad className='mx-auto mt-4 text-gray-400' size={32} />
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {!fakeData.length ? (
+          <div className='mb-16 text-center'>
+            <p className='text-2xl text-gray-400'>No dishes yet</p>
+            <SmileySad className='mx-auto mt-4 text-gray-400' size={32} />
+          </div>
+        ) : (
+          <div className='mb-6 max-h-96 overflow-y-auto'>
+            {fakeData.map((food) => (
+              <div
+                key={food.id}
+                className='flex items-center justify-between rounded px-4 py-2 odd:bg-gray-800'
+              >
+                <CheckboxController
+                  id={food.id}
+                  control={control}
+                  name={food.name}
+                />
+                <PencilSimple
+                  onClick={() => onEdit(food.id)}
+                  className='cursor-pointer text-gray-200 active:text-gray-400'
+                  size={24}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+        <div className='flex items-center justify-between'>
+          <Button
+            onClick={onAdd}
+            type='button'
+            title='Add dish'
+            rightIcon={<PlusCircle size={32} />}
+          />
+          <Button
+            disabled={isGenerateDisabled}
+            type='submit'
+            title='Generate'
+            rightIcon={<ShoppingCartSimple size={32} />}
+          />
         </div>
-      ) : (
-        <div className='mb-6 max-h-96 overflow-y-auto'>
-          {fakeData.map((food) => (
-            <div
-              key={food.id}
-              className='flex items-center justify-between rounded px-4 py-2 odd:bg-gray-800'
-            >
-              <CheckboxController
-                id={food.id}
-                control={control}
-                name={food.name}
-              />
-              <PencilSimple
-                onClick={() => onEdit(food.id)}
-                className='cursor-pointer text-gray-200 active:text-gray-400'
-                size={24}
-              />
-            </div>
-          ))}
-        </div>
-      )}
-      <div className='flex items-center justify-between'>
-        <Button
-          onClick={onAdd}
-          type='button'
-          title='Add dish'
-          rightIcon={<PlusCircle size={32} />}
-        />
-        <Button
-          disabled={isGenerateDisabled}
-          type='submit'
-          title='Generate'
-          rightIcon={<ShoppingCartSimple size={32} />}
-        />
-      </div>
-    </form>
+      </form>
+      <AddDishDialog isOpen={isDialogOpen} closeDialog={onClose} />
+    </>
   );
 }

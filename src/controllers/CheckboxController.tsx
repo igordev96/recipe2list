@@ -3,12 +3,12 @@ import * as Checkbox from '@radix-ui/react-checkbox';
 import { Check } from '@phosphor-icons/react';
 import { Controller, UseControllerProps } from 'react-hook-form';
 
-type CheckboxController = UseControllerProps & {
+type CheckboxControllerProps = UseControllerProps & {
   id: string;
   name: string;
 };
 
-export default function CheckboxController(props: CheckboxController) {
+export default function CheckboxController(props: CheckboxControllerProps) {
   const { id, name, ...rest } = props;
 
   return (
