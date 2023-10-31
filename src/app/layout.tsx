@@ -10,6 +10,11 @@ const nunitoSans = Nunito_Sans({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Recipe 2 List',
   description: 'Built by igordev96',
+  manifest: '/manifest.json',
+  themeColor: '#3f3f46',
+  icons: {
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout(props: { children: React.ReactNode }) {

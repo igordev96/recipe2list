@@ -21,10 +21,6 @@ export function NavItem(props: NavItemProps) {
       ? ShoppingCartSimple
       : User;
 
-  const handleOnClick = () => {
-    console.log(title, pathName);
-  };
-
   return (
     <Link
       className={`flex h-full grow cursor-pointer items-center justify-center text-white transition-colors hover:text-gray-400 ${isActiveClass}`}
